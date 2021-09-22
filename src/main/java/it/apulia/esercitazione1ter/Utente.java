@@ -24,6 +24,13 @@ public class Utente {
 	public Utente() {
 	}
 
+	public Utente(Utente passed){
+		this.nome = passed.nome;
+		this.cognome = passed.cognome;
+		this.email = passed.email;
+		this.password = passed.password;
+	}
+
 	@Id
 	@SequenceGenerator(
 			name = "user_sequence",

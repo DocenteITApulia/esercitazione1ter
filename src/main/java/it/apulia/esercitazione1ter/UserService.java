@@ -20,6 +20,10 @@ public class UserService {
 		return this.userRepository.findUtenteByEmail(email).isPresent();
 	}
 
+	public Utente getUtenteByEmail(String email){
+		return this.userRepository.findUtenteByEmail(email).get();
+	}
+
 	public boolean saveUser(UtenteDTO utente) {
 		if(!this.verifyEmail(utente.getEmail())){
 			Utente temp = new Utente(utente.nome,utente.cognome,utente.email,utente.password);

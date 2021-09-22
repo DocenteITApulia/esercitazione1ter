@@ -41,6 +41,23 @@ public class HomeController {
 		return "login";
 	}
 
+	@GetMapping("/ricerca")
+	public String ricerca(Model model) {
+		model.addAttribute( "formRicerca", new RicercaDTO());
+		return "ricerca";
+	}
+
+	@PostMapping("/ricerca")
+	public String ricercaPost( @ModelAttribute("formRicerca") RicercaDTO formRicerca, BindingResult bindingResult,
+							   Model model, RedirectAttributes ra){
+		Utente temp = new Utente(this.userService.getUtenteByEmail(formRicerca.email));
+		System.out.println("L'utente ha cercato la seguente email: "+ formRicerca.email);
+		System.out.println("La ricerca ha restituito l'utente chiamato "+temp.getCognome());
+		model.addAttribute("utente",temp);
+		ra.addFlashAttribute("utente", temp);
+		return "redirect:/esitoRicerca";
+	}
+
 	@PostMapping("/login")
 	public String loginPost(
 			@ModelAttribute("formLogin") LoginDTO formLogin,
@@ -96,6 +113,15 @@ public class HomeController {
 			@ModelAttribute("formLogin") LoginDTO formLogin,
 			Model model) {
 		return "loginSuccess";
+	}
+
+	@GetMapping("/esitoRicerca")
+	public String esitoRicerca(
+			@ModelAttribute("utente") Utente utente,
+			Model model) {
+		model.addAttribute("utente",utente);
+		System.out.println("Nei risultati ho ottenuto "+ utente.getEmail());
+		return "esitoRicerca";
 	}
 
 	@GetMapping("/datiSalvatiForm")
